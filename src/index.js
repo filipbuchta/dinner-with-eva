@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import './index.css';
 
-import {Redirect, Router, Route, browserHistory} from 'react-router'
+import {Redirect, Router, IndexRoute, Route, browserHistory} from 'react-router'
 import Dashboard from "./components/Dashboard";
 import Statistics from "./components/Statistics";
 import Settings from "./components/Settings";
@@ -21,9 +21,9 @@ store.dispatch(fetchVisits());
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Redirect from="/" to="dashboard"/>
+
             <Route path="/" component={App}>
-                <Route path="dashboard" component={Dashboard}/>
+                <IndexRoute component={Dashboard}/>
                 <Route path="statistics" component={Statistics}/>
                 <Route path="settings" component={Settings}/>
                 <Route path="*" component={NoMatch}/>
