@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import './index.css';
 
-import {Redirect, Router, IndexRoute, Route, browserHistory} from 'react-router'
+import {Redirect, Router, IndexRoute, Route, hashHistory} from 'react-router'
 import Dashboard from "./components/Dashboard";
 import Statistics from "./components/Statistics";
 import Settings from "./components/Settings";
@@ -20,8 +20,7 @@ store.dispatch(fetchVisits());
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={browserHistory}>
-
+        <Router history={hashHistory}>
             <Route path="/" component={App}>
                 <IndexRoute component={Dashboard}/>
                 <Route path="statistics" component={Statistics}/>

@@ -28,7 +28,7 @@ class SignIn extends Component {
                             <FacebookLogin
                                 size="small"
                                 appId="235571820227528"
-                                autoLoad={true}
+                                autoLoad="true"
                                 fields="name"
                                 callback={this.props.onFacebookResponse}
                             />

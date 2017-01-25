@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from "react-router";
+import { Link, IndexLink } from "react-router";
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -13,7 +13,7 @@ class App extends Component {
             <nav>
               <ul className="nav nav-pills float-right">
                 <li className="nav-item">
-                  <Link to="dashboard" className="nav-link" activeClassName="active">Dashboard</Link>
+                  <IndexLink to="/" className="nav-link" activeClassName="active">Menu</IndexLink>
                 </li>
                 <li className="nav-item">
                   <Link to="statistics" className="nav-link" activeClassName="active">Statistics</Link>
