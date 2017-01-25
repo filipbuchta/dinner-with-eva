@@ -1,0 +1,42 @@
+body {
+    font-family: sans-serif;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.header h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 3rem;
+}
+
+.header {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: .05rem solid #e5e5e5;
+}
+
+@media (min-width: 66em) {
+    .container {
+        max-width: 64rem;
+    }
+}
+
+@media screen and (min-width: 66em) {
+    /* Remove the padding we set earlier */
+    .header,
+    .marketing,
+    .footer {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    /* Space out the masthead */
+    .header {
+        margin-bottom: 2rem;
+    }
+    /* Remove the bottom border on the jumbotron for visual effect */
+    .jumbotron {
+        border-bottom: 0;
+    }
+}
