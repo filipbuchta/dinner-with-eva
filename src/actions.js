@@ -101,17 +101,11 @@ export const fetchRestaurants = () => {
         db.ref("/restaurants").once("value", (snapshot) => {
             let restaurants = mapToArray(snapshot.val());
             for (let restaurant of restaurants) {
-                restaurant.rank = 1;
-                restaurant.tags = ["China"];
-                restaurant.votes = [
-                    {
-                        date: new Date(),
-                        user: "Filip Buchta"
-                    }
-                ];
                 let parser = parsers[restaurant.id];
 
                 if (parser == null) {
+                    restaurant.foods = [];
+                    dispatch(fetchRestaurantSuccess(restaurant));
                     continue;
                     //throw new Error("Parser for " + restaurant.id + " not defined");
                 }
@@ -122,14 +116,15 @@ export const fetchRestaurants = () => {
                         food.people = [];
                     }
                     dispatch(fetchRestaurantSuccess(restaurant));
-
-                    db.ref("/users").once("value", (snapshot) => {
-                        let users = snapshot.val();
-
-                        dispatch(fetchFriendsSuccess(mapToArray(users)));
-                    });
                 });
             }
+
+
+            db.ref("/users").once("value", (snapshot) => {
+                let users = snapshot.val();
+
+                dispatch(fetchFriendsSuccess(mapToArray(users)));
+            });
         });
     };
 };

@@ -13,7 +13,8 @@ class Food extends Component {
                         <span><span className="badge badge-pill badge-default">Polévka</span>&nbsp;</span> : ""}
                     {this.props.food.name}
                     &nbsp;
-                    {this.props.likedBy.map((value, index) => <span key={index}><span className="badge badge-pill badge-success">{value.nickname}</span>&nbsp;</span>)}
+                    {this.props.likedBy.map((value, index) => <span key={index}><span
+                        className="badge badge-pill badge-success">{value.nickname}</span>&nbsp;</span>)}
                 </li>
             </ul>
         );
@@ -27,25 +28,29 @@ class Restaurant extends Component {
         let visitedToday = this.props.visits.today != null && this.props.visits.today.restaurant === this.props.restaurant.id;
 
         return (
-            <div>
-                <div className="pull-right">
-                    { canVisit ?
-                        <button className={"btn btn-outline-primary"} onClick={this.props.onVisit}>
-                            <i className={"fa " + (visitedToday ? "fa-check-square-o" : "fa-square-o") }/>
-                        </button> : ""
-                    }
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="pull-right">
+                        { canVisit ?
+                            <button className={"btn btn-outline-primary"} onClick={this.props.onVisit}>
+                                <i className={"fa " + (visitedToday ? "fa-check-square-o" : "fa-square-o") }/>
+                            </button> : ""
+                        }
                     </div>
-                <h3>
-                    <a href={this.props.restaurant.url}>{this.props.restaurant.name}</a>
-                </h3>
-                <div>
-                    {this.props.restaurant.foods
-                        .map((value, index) => {
+                    <h3>
+                        <a href={this.props.restaurant.url}>{this.props.restaurant.name}</a>
+                    </h3>
+                    <div>
+                        {this.props.restaurant.foods
+                            .map((value, index) => {
 
-                            let likedBy = this.props.friends.filter( u => u.preferences.split('\n').some( p => value.name.match(new RegExp(p, "i"))));
+                                    let likedBy = this.props.friends.filter(u => u.preferences.split('\n').some(p => value.name.match(new RegExp(p, "i"))));
 
-                            return <Food key={index} food={value} likedBy={likedBy}/> }
-                        )}
+                                    return <Food key={index} food={value} likedBy={likedBy}/>
+                                }
+                            )}
+                    </div>
+                    <br/>
                 </div>
             </div>
         );
@@ -57,7 +62,9 @@ class RestaurantList extends Component {
         return (<div className="row">
             <div className="col-lg-12">
                 {this.props.restaurants
-                    .map((value, index) => <Restaurant key={index} user={this.props.user} restaurant={value} friends={this.props.friends} visits={this.props.visits}
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((value, index) => <Restaurant key={index} user={this.props.user} restaurant={value}
+                                                       friends={this.props.friends} visits={this.props.visits}
                                                        onVisit={() => {
                                                            this.props.onVisit(value);
                                                        }}/>)}

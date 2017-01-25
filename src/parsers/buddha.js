@@ -11,13 +11,12 @@ export default async function parse(restaurant) {
     if (today != null) {
         let everything = (dom.querySelectorAll("#jidelnilisteklong")[0]).innerText;
 
-        let currentName = "";
         let dayStarted = false;
         for (let line of everything.split("\n")) {
             line = line.trim();
-            if (line.length == 0)
+            if (line.length === 0)
                 continue;
-            if (line.indexOf(today) != -1) {
+            if (line.indexOf(today) !== -1) {
                 dayStarted = true;
                 continue;
             }
@@ -34,7 +33,7 @@ export default async function parse(restaurant) {
             line = line.replace(/[1-9][0-9]{1,2},- Kč/, "");
             line = line.replace(/, A:[0-9 +]*/, "");
             line = line.trim();
-            let isSoup = foods.length == 0;
+            let isSoup = foods.length === 0;
             foods.push({name: line, period: "day", isSoup: isSoup});
         }
     }

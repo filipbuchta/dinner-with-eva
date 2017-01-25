@@ -33,5 +33,6 @@ import buddha from "./buddha"
 import montebu from "./montebu"
 import myslivna from "./myslivna"
 import zakki from "./zakki"
+import goldennepal from "./goldennepal"
 
-export {lokofu, vulcano, kfc, nepal, buddha, montebu, /*myslivna,*/ zakki}
+export {lokofu, vulcano, kfc, nepal, buddha, montebu, /*myslivna,*/ zakki, goldennepal}

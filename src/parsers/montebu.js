@@ -1,4 +1,4 @@
-import {DAYS, getDayOfWeek, fetchHtml} from "./index";
+import {fetchHtml} from "./index";
 
 export default async function parse(restaurant) {
 
@@ -16,7 +16,7 @@ export default async function parse(restaurant) {
     let foods = [];
 
     for (let element of everything.querySelectorAll("p")) {
-        let isSoup = foods.length == 0;
+        let isSoup = foods.length === 0;
 
         let line = element.innerText;
         line = line.replace(/[1-4]\./, "");
