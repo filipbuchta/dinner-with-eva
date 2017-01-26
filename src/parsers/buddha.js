@@ -22,7 +22,7 @@ export default async function parse(restaurant) {
             }
             if (!dayStarted)
                 continue;
-            if (line.startsWith("Příloha"))
+            if (line.toLowerCase().indexOf("příloha") !== -1)
                 break;
             if (line.startsWith("("))
                 continue;
