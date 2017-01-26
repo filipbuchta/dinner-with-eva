@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9d5effa9-789c-4e36-b4a9-4c163857b4bf" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/RestaurantList.js" afterPath="$PROJECT_DIR$/src/components/RestaurantList.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -758,6 +757,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="last visit" />
+    <option name="LAST_COMMIT_MESSAGE" value="last visit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
