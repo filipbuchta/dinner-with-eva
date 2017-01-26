@@ -59,10 +59,11 @@ class Restaurant extends Component {
 
 class RestaurantList extends Component {
     render() {
+        console.log(this.props.visits.list);
         return (<div className="row">
             <div className="col-lg-12">
                 {this.props.restaurants
-                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .sort((a, b) => this.props.visits.list.filter( v => v.restaurant == b.id).length - this.props.visits.list.filter( v => v.restaurant == a.id).length)
                     .map((value, index) => <Restaurant key={index} user={this.props.user} restaurant={value}
                                                        friends={this.props.friends} visits={this.props.visits}
                                                        onVisit={() => {

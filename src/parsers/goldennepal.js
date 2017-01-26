@@ -11,7 +11,6 @@ export default async function parse(restaurant) {
     if (today !== null) {
         let everything = (dom.querySelectorAll(".page__content")[0]).innerText;
 
-        let currentName = "";
         let i = 0;
         let dayStarted = false;
         for (let line of everything.split("\n")) {
@@ -46,7 +45,6 @@ export default async function parse(restaurant) {
             line = line.replace(/, A:[0-9 +]*/, "");
             line = line.trim();
 
-            console.log(line);
 
             let isSoup = foods.length == 0;
             foods.push({name: line, period: "day", isSoup: isSoup});
