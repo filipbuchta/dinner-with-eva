@@ -26,11 +26,13 @@ class Restaurant extends Component {
     render() {
         let canVisit = this.props.user != null;
         let visitedToday = this.props.visits.today != null && this.props.visits.today.restaurant === this.props.restaurant.id;
-
+        let lastVisit = this.props.visits.list.filter( v => v.restaurant == this.props.restaurant.id ).sort( (a, b) => Date.parse(b.id) - Date.parse(a.id) )[0];
         return (
             <div className="row">
                 <div className="col-lg-12">
                     <div className="pull-right">
+                        { lastVisit != null ? <small>{Math.ceil(Math.abs(Date.now() - Date.parse(lastVisit.id)) / (1000 * 3600 * 24)) + " days ago"}</small>  : "" }
+                            &nbsp;
                         { canVisit ?
                             <button className={"btn btn-outline-primary"} onClick={this.props.onVisit}>
                                 <i className={"fa " + (visitedToday ? "fa-check-square-o" : "fa-square-o") }/>
@@ -59,7 +61,7 @@ class Restaurant extends Component {
 
 class RestaurantList extends Component {
     render() {
-        console.log(this.props.visits.list);
+
         return (<div className="row">
             <div className="col-lg-12">
                 {this.props.restaurants
