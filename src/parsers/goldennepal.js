@@ -25,7 +25,7 @@ export default async function parse(restaurant) {
             if (!dayStarted)
                 continue;
 
-            if (dayStarted && DAYS.some(d => line.toUpperCase().indexOf(d) !== -1)) {
+            if (dayStarted && (DAYS.some(d => line.toUpperCase().indexOf(d) !== -1) || line.toUpperCase().indexOf("SOBOTA") !== -1)) {
                 break;
             }
 

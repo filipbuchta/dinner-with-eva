@@ -50,6 +50,7 @@ export const login = (response) => {
                 user = {};
                 user.name = response.name;
                 user.nickname = user.name;
+                user.preferences = "";
             }
 
             if (!snapshot.exists()) {
