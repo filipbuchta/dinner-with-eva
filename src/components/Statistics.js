@@ -18,7 +18,7 @@ class Statistics extends Component {
         data.datasets = [dataset];
 
         for (let restaurant of restaurants) {
-            let visitCount = visits.filter(v => v.restaurant === restaurant.id).length;
+            let visitCount = visits.filter(v => v.restaurantId === restaurant.id).length;
             if (visitCount > 0) {
                 data.labels.push(restaurant.name);
                 dataset.data.push(visitCount);

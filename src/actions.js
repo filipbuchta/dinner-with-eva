@@ -5,8 +5,8 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const UPDATE_SETTINGS_SUCCESS = 'UPDATE_SETTINGS_SUCCESS';
 export const FETCH_RESTAURANT_SUCCESS = 'FETCH_RESTAURANT_SUCCESS';
 export const FETCH_FRIENDS_SUCCESS = 'FETCH_FRIENDS_SUCCESS';
-export const FETCH_VISITS_SUCCESS = 'FETCH_VISITS_SUCCESS';
-export const VISIT_TODAY_SUCCESS = 'VISIT_TODAY_SUCCESS';
+export const ADD_VISIT = 'ADD_VISIT';
+export const REMOVE_VISIT = 'REMOVE_VISIT';
 
 import * as parsers from "./parsers";
 
@@ -20,6 +20,26 @@ firebase.initializeApp({
 
 firebase.database().goOnline();
 
+
+firebase.database().ref("/visits").on("child_added", (snapshot) => {
+    let visit = snapshot.val();
+    visit.id = snapshot.key;
+    store.dispatch({
+        type: ADD_VISIT,
+        visit: visit
+    });
+});
+
+
+firebase.database().ref("/visits").on("child_removed", (snapshot) => {
+    let visit = snapshot.val();
+    visit.id = snapshot.key;
+    store.dispatch({
+        type: REMOVE_VISIT,
+        visit: visit
+    });
+});
+
 export const updateSettings = (settings) => {
     let userId = store.getState().authentication.user.id;
 
@@ -28,7 +48,7 @@ export const updateSettings = (settings) => {
     db.ref(`/users/${userId}`).update(settings);
     return {
         type: UPDATE_SETTINGS_SUCCESS,
-        user: userId,
+        userId: userId,
         settings: settings
     }
 };
@@ -71,22 +91,7 @@ export const fetchFriendsSuccess = (friends) => {
     }
 };
 
-export const fetchVisitsSuccess = (visits) => {
-  return {
-      type: FETCH_VISITS_SUCCESS,
-      visits: visits
-  }
-};
 
-export const fetchVisits = () => {
-    let db = firebase.database();
-
-    return (dispatch) => {
-        db.ref("/visits").once("value", (snapshot) => {
-            dispatch(fetchVisitsSuccess(mapToArray(snapshot.val())));
-        });
-    }
-};
 
 export const fetchRestaurantSuccess = (resutarant) => {
     return {
@@ -143,29 +148,18 @@ function mapToArray(map) {
 }
 
 
-
-let today = new Date().toISOString().split("T")[0];
-firebase.database().ref(`/visits/${today}`).on("value", (snapshot) => {
-    let value = snapshot.val();
-    store.dispatch({
-        type: VISIT_TODAY_SUCCESS,
-        restaurant: value,
-        date: today
-    })
-});
-
 export const visit = (restaurant) => {
 
     let today = new Date().toISOString().split("T")[0];
 
     let state = store.getState();
-    if (state.visits.today != null && state.visits.today.restaurant === restaurant.id) {
+    if (state.visits.list.some(v => v.id == today && v.restaurantId == restaurant.id)) {
         firebase.database().ref(`/visits/${today}`).remove();
     } else {
-        firebase.database().ref(`/visits/${today}`).set({ restaurant: restaurant.id });
+        firebase.database().ref(`/visits/${today}`).set({ restaurantId: restaurant.id });
     }
 
     return {
-        type: "VISIT"
+        type: "VISIT",
     }
 };

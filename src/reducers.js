@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux'
-import {LOGIN_SUCCESS, FETCH_VISITS_SUCCESS, VISIT_TODAY_SUCCESS, FETCH_RESTAURANT_SUCCESS, UPDATE_SETTINGS_SUCCESS, FETCH_FRIENDS_SUCCESS} from "./actions"
+import {LOGIN_SUCCESS, REMOVE_VISIT, ADD_VISIT, FETCH_RESTAURANT_SUCCESS, UPDATE_SETTINGS_SUCCESS, FETCH_FRIENDS_SUCCESS} from "./actions"
 
-function visits(state = {list: [], today: null}, action) {
+function visits(state = {list: []}, action) {
     switch (action.type) {
-        case VISIT_TODAY_SUCCESS:
-            return {...state, today: action.restaurant };
-        case FETCH_VISITS_SUCCESS:
-            return {...state, list: action.visits };
+        case ADD_VISIT:
+            return {...state, list: [...state.list, action.visit] };
+        case REMOVE_VISIT:
+            return {...state, list: state.list.filter(v => v.id !== action.visit.id) };
         default:
             return state;
     }
@@ -15,7 +15,7 @@ function visits(state = {list: [], today: null}, action) {
 function friends(state = {list: []}, action) {
     switch (action.type) {
         case UPDATE_SETTINGS_SUCCESS:
-            return {...state, list: state.list.map( (friend) => friend.id === action.user ? Object.assign(friend, action.settings)  : friend)};
+            return {...state, list: state.list.map( (friend) => friend.id === action.userId ? Object.assign(friend, action.settings)  : friend)};
         case FETCH_FRIENDS_SUCCESS:
             return {...state, list: action.friends };
         default:

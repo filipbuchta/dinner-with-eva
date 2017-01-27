@@ -16,7 +16,6 @@ import {fetchRestaurants, fetchVisits} from "./actions";
 
 
 store.dispatch(fetchRestaurants());
-store.dispatch(fetchVisits());
 
 ReactDOM.render(
     <Provider store={store}>

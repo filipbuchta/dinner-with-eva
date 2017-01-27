@@ -31,9 +31,9 @@ export default async function parse(restaurant) {
 
             i++;
 
-            if (i == 2) { // description
+            if (i === 2) { // description
                 continue;
-            } else if (i == 3) { // price
+            } else if (i === 3) { // price
                 i = 0;
                 continue;
             }
