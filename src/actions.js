@@ -156,6 +156,7 @@ export const visit = (restaurant) => {
     if (state.visits.list.some(v => v.id == today && v.restaurantId == restaurant.id)) {
         firebase.database().ref(`/visits/${today}`).remove();
     } else {
+        firebase.database().ref(`/visits/${today}`).remove(); //TODO: this is here just because i dont listen to value change but only child added/removed
         firebase.database().ref(`/visits/${today}`).set({ restaurantId: restaurant.id });
     }
 
