@@ -69,14 +69,16 @@ class RestaurantList extends Component {
 
         let users = this.props.group == null ? [] : this.props.users.filter( (user) => user.groupId == this.props.user.groupId );
 
+
         return (<div className="row">
             <div className="col-lg-12">
                 {this.props.restaurants
                     //.sort((a, b) => visits.filter( v => v.restaurantId == b.id).length - visits.filter( v => v.restaurantId == a.id).length)
-                    .map((value, index) => <Restaurant key={index} user={this.props.user} restaurant={value}
+                    .filter( restaurant => this.props.group == null || this.props.group.restaurants.some( r => r.id == restaurant.id ))
+                    .map((restaurant, index) => <Restaurant key={index} user={this.props.user} restaurant={restaurant}
                                                        users={users} visits={visits}
                                                        onVisit={() => {
-                                                           this.props.onVisit(value);
+                                                           this.props.onVisit(restaurant);
                                                        }}/>)}
             </div>
         </div>)

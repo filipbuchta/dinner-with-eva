@@ -7,31 +7,17 @@ class Settings extends Component {
     constructor() {
         super();
 
-        this.onSubmit = this.onSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
 
-        this.state = {
-            showSuccess: false
-        }
     }
 
     onInputChange(e) {
         let change = {};
         change[e.target.name] = e.target.value;
-        this.setState(change);
+
+        this.props.updateSettings(change);
     }
 
-    onSubmit(e) {
-        this.props.dispatch(updateSettings(this.state));
-
-        e.preventDefault();
-
-        this.setState({
-            showSuccess: true
-        });
-
-        //  browserHistory.push('/dashboard');
-    }
 
     render() {
         if (this.props.user == null)
@@ -42,13 +28,7 @@ class Settings extends Component {
                 <div className="row">
                     <div className="col-md-12">
                         <h3>Settings</h3>
-                        <form onSubmit={this.onSubmit}>
-                            {
-                                this.state.showSuccess ?
-                                <div className="alert alert-success" role="alert">
-                                    Settings updated successfully
-                                </div> : ""
-                            }
+                        <form>
                             <div className="form-group">
                                 <label htmlFor="name">Name</label>
                                 <input type="text" className="form-control" name="name" defaultValue={this.props.user.name} disabled="disabled" />
@@ -70,10 +50,9 @@ class Settings extends Component {
                                 </select>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="preferences">Preferences</label>
+                                <label htmlFor="preferences">Preferences (regex)</label>
                                 <textarea name="preferences" className="form-control" rows="10" onChange={ this.onInputChange } defaultValue={this.props.user.preferences} />
                             </div>
-                            <button type="submit" className="btn btn-primary">Save</button>
                         </form>
                     </div>
                 </div>
@@ -90,7 +69,9 @@ export default connect(
     },
     (dispatch, ownProps) => {
         return {
-            dispatch: dispatch
+            updateSettings: (settings) => {
+                dispatch(updateSettings(settings));
+            }
         };
     }
 )(Settings);

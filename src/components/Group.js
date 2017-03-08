@@ -11,21 +11,17 @@ class Group extends Component {
 
     constructor() {
         super();
-        this.onSubmit = this.onSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
 
     }
     onInputChange(e) {
         let change = {};
         change[e.target.name] = e.target.value;
-        this.setState(change);
+
+        this.props.updateGroup(this.props.group.id, change);
     }
 
-    onSubmit(e) {
-        this.props.updateGroup(this.props.group.id, this.state);
 
-        e.preventDefault();
-    }
 
     render() {
         if (this.props.group == null) return null;
@@ -45,7 +41,6 @@ class Group extends Component {
                                 <label htmlFor="name">Name</label>
                                 <input type="text" className="form-control" required="required" name="name" defaultValue={this.props.group.name} onChange={ this.onInputChange }  />
                             </div>
-                            <button type="submit" className="btn btn-primary">Save</button>
                         </form>
                     </div>
                 </div>
