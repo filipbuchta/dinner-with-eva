@@ -2,12 +2,31 @@ import React, {Component} from 'react';
 
 import {connect} from 'react-redux';
 
-import {groupRestaurantChange} from "./../actions";
+import {groupRestaurantChange, updateGroup} from "./../actions";
 
 import Statistics from "./Statistics";
 
 
 class Group extends Component {
+
+    constructor() {
+        super();
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+
+    }
+    onInputChange(e) {
+        let change = {};
+        change[e.target.name] = e.target.value;
+        this.setState(change);
+    }
+
+    onSubmit(e) {
+        this.props.updateGroup(this.props.group.id, this.state);
+
+        e.preventDefault();
+    }
+
     render() {
         if (this.props.group == null) return null;
 
@@ -18,6 +37,19 @@ class Group extends Component {
                         <Statistics group={this.props.group} restaurants={this.props.restaurants}/>
                     </div>
                 </div>
+                <hr />
+                <div className="row">
+                    <div className="col-lg-12">
+                        <form onSubmit={this.onSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="name">Name</label>
+                                <input type="text" className="form-control" required="required" name="name" defaultValue={this.props.group.name} onChange={ this.onInputChange }  />
+                            </div>
+                            <button type="submit" className="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+                <hr />
                 <div className="row">
                     <div className="col-lg-6">
                         <h4>Members</h4>
@@ -28,7 +60,6 @@ class Group extends Component {
                         )}
                     </div>
                     <div className="col-lg-6">
-
                         <h4>Restaurants</h4>
                         {this.props.restaurants.map(
                             (restaurant) => {
@@ -60,6 +91,9 @@ export default connect(
     },
     (dispatch, ownProps) => {
         return {
+            updateGroup: (id, group) => {
+                dispatch(updateGroup(id, group));
+            },
             onGroupRestaurantChange: (restaurant, value) => {
                 dispatch(groupRestaurantChange(restaurant, value));
             }

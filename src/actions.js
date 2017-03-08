@@ -22,6 +22,16 @@ firebase.initializeApp({
 firebase.database().goOnline();
 
 
+export const updateGroup = (id, group) => {
+    let db = firebase.database();
+
+      db.ref(`/groups/${id}`).update(group);
+
+    return {
+        type: "UPDATE_GROUP_SUCCESS"
+    }
+};
+
 export const groupRestaurantChange = (restaurant, value) => {
     let db = firebase.database();
 
