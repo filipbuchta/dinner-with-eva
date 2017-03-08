@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from "react-router";
 
 import {connect} from 'react-redux';
 
@@ -13,39 +12,24 @@ class SignIn extends Component {
 
     constructor() {
         super();
-        this.modal = null;
     }
 
 
     render() {
         return (
-            <div>
-                {
-                    this.props.user != null ?
-                        <Link to="settings" className="nav-link" activeClassName="active">{this.props.user.name}</Link>
-                        :
-                        <div>
-                            <FacebookLogin
-                                size="small"
-                                appId="235571820227528"
-                                autoLoad={true}
-                                fields="name"
-                                callback={this.props.onFacebookResponse}
-                            />
-                        </div>
-
-                }
-
-            </div>
+            <FacebookLogin
+                textButton=""
+                cssClass="btn btn-outline-primary fa fa-facebook"
+                appId="235571820227528"
+                autoLoad={true}
+                fields="name"
+                callback={this.props.onFacebookResponse}
+            />
         );
     }
 }
 export default connect(
-    (state, ownProps) => {
-        return {
-            user: state.authentication.user
-        }
-    },
+    null,
     (dispatch, ownProps) => {
         return {
             onFacebookResponse: (response) => {

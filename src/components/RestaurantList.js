@@ -28,14 +28,14 @@ class Restaurant extends Component {
 
         let today = new Date().toISOString().split("T")[0];
 
-        let visitedToday = this.props.visits.some( v => v.id === today && v.restaurantId === this.props.restaurant.id);
+        let visitedToday = this.props.visits.some(v => v.id === today && v.restaurantId === this.props.restaurant.id);
         let lastVisit = this.props.visits.filter( v => v.restaurantId === this.props.restaurant.id ).sort( (a, b) => Date.parse(b.id) - Date.parse(a.id) )[0];
         let lastVisitDays = lastVisit == null ? -1 : Math.floor(Math.abs(Date.now() - Date.parse(lastVisit.id)) / (1000 * 3600 * 24));
         return (
             <div className="row">
                 <div className="col-lg-12">
                     <div className="pull-right">
-                        { lastVisitDays > 0 ? <small>{lastVisitDays + " days ago"}</small>  : "" }
+                        { lastVisitDays > 0 ? <small className="text-muted">{lastVisitDays + " days ago"}</small>  : "" }
                             &nbsp;
                         { canVisit ?
                             <button className={"btn btn-outline-primary"} onClick={this.props.onVisit}>
@@ -49,8 +49,7 @@ class Restaurant extends Component {
                     <div>
                         {this.props.restaurant.foods
                             .map((value, index) => {
-
-                                    let likedBy = this.props.friends.filter(u => u.preferences.split('\n').some(p => value.name.match(new RegExp(p, "i"))));
+                                    let likedBy = this.props.users.filter(u => u.preferences.split('\n').some(p => value.name.match(new RegExp(p, "i"))));
 
                                     return <Food key={index} food={value} likedBy={likedBy}/>
                                 }
@@ -66,12 +65,16 @@ class Restaurant extends Component {
 class RestaurantList extends Component {
     render() {
 
+        let visits = this.props.group == null ? [] : this.props.group.visits;
+
+        let users = this.props.group == null ? [] : this.props.users.filter( (user) => user.groupId == this.props.user.groupId );
+
         return (<div className="row">
             <div className="col-lg-12">
                 {this.props.restaurants
-                    .sort((a, b) => this.props.visits.filter( v => v.restaurantId == b.id).length - this.props.visits.filter( v => v.restaurantId == a.id).length)
+                    //.sort((a, b) => visits.filter( v => v.restaurantId == b.id).length - visits.filter( v => v.restaurantId == a.id).length)
                     .map((value, index) => <Restaurant key={index} user={this.props.user} restaurant={value}
-                                                       friends={this.props.friends} visits={this.props.visits}
+                                                       users={users} visits={visits}
                                                        onVisit={() => {
                                                            this.props.onVisit(value);
                                                        }}/>)}
@@ -85,8 +88,8 @@ export default connect(
         return {
             user: state.authentication.user,
             restaurants: state.restaurants.list,
-            friends: state.friends.list,
-            visits: state.visits.list
+            users: state.users.list,
+            group: state.authentication.user == null ? null : state.groups.list.find( g => g.id === state.authentication.user.groupId)
         }
     },
     (dispatch, ownProps) => {

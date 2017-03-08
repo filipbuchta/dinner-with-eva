@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 
-class Statistics extends Component {
+export default class Statistics extends Component {
+
     render() {
         let restaurants = this.props.restaurants;
-        let visits = this.props.visits;
+        let visits = this.props.group.visits;
 
         let data = {};
         data.labels = [];
@@ -45,15 +46,6 @@ class Statistics extends Component {
         </div>)
     }
 }
-
-export default connect(
-    (state, ownProps) => {
-        return {
-            restaurants: state.restaurants.list,
-            visits: state.visits.list
-        }
-    }
-)(Statistics);
 
 
 function selectColor(colorNum, colors){

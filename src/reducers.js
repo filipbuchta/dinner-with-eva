@@ -1,23 +1,25 @@
 import {combineReducers} from 'redux'
-import {LOGIN_SUCCESS, REMOVE_VISIT, ADD_VISIT, FETCH_RESTAURANT_SUCCESS, UPDATE_SETTINGS_SUCCESS, FETCH_FRIENDS_SUCCESS} from "./actions"
+import {LOGIN_SUCCESS, REMOVE_VISIT, FETCH_GROUPS_SUCCESS, ADD_VISIT, FETCH_RESTAURANT_SUCCESS, UPDATE_SETTINGS_SUCCESS, FETCH_USERS_SUCCESS} from "./actions"
 
-function visits(state = {list: []}, action) {
+function groups(state = {list: []}, action) {
     switch (action.type) {
+        case FETCH_GROUPS_SUCCESS:
+            return {...state, list: action.groups };
         case ADD_VISIT:
-            return {...state, list: [...state.list, action.visit] };
+            return {...state, list: state.list.map( (group) => group.id === action.groupId ? { ...group, visits: [...group.visits, action.visit] } : group)};
         case REMOVE_VISIT:
-            return {...state, list: state.list.filter(v => v.id !== action.visit.id) };
+            return {...state, list: state.list.map( (group) => group.id === action.groupId ? { ...group, visits: group.visits.filter(v => v.id !== action.visit.id) } : group)};
         default:
             return state;
     }
 }
 
-function friends(state = {list: []}, action) {
+function users(state = {list: []}, action) {
     switch (action.type) {
         case UPDATE_SETTINGS_SUCCESS:
-            return {...state, list: state.list.map( (friend) => friend.id === action.userId ? Object.assign(friend, action.settings)  : friend)};
-        case FETCH_FRIENDS_SUCCESS:
-            return {...state, list: action.friends };
+            return {...state, list: state.list.map( (user) => user.id === action.userId ? Object.assign(user, action.settings) : user)};
+        case FETCH_USERS_SUCCESS:
+            return {...state, list: action.users };
         default:
             return state;
     }
@@ -45,10 +47,10 @@ function restaurants(state = {list: []}, action) {
 }
 
 const rootReducer = combineReducers({
-    visits,
-    friends,
+    users,
     authentication,
-    restaurants
+    restaurants,
+    groups
 });
 
 export default rootReducer;

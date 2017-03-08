@@ -1,8 +1,8 @@
 {
-  "name": "dinner-with-eva",
+  "name": "where-should-we-eat",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://kam-pujdeme-dnes-na-obed-evo.cz",
+  "homepage": "http://where-should-we-eat.github.",
   "devDependencies": {
     "bootstrap": "^4.0.0-alpha.6",
     "react-scripts": "0.8.5"
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && move build docs",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

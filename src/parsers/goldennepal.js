@@ -46,7 +46,7 @@ export default async function parse(restaurant) {
             line = line.trim();
 
 
-            let isSoup = foods.length == 0;
+            let isSoup = foods.length === 0;
             foods.push({name: line, period: "day", isSoup: isSoup});
         }
     }

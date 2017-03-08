@@ -50,12 +50,24 @@ class Settings extends Component {
                                 </div> : ""
                             }
                             <div className="form-group">
-                                <label htmlFor="nickname">Name</label>
+                                <label htmlFor="name">Name</label>
                                 <input type="text" className="form-control" name="name" defaultValue={this.props.user.name} disabled="disabled" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="nickname">Nickname</label>
                                 <input type="text" className="form-control" name="nickname" onChange={ this.onInputChange } defaultValue={this.props.user.nickname} placeholder="Enter nickname" />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="group">Group</label>
+                                <select type="text" className="form-control" name="groupId" onChange={ this.onInputChange } defaultValue={this.props.user.groupId}>
+                                    <option label="None" />
+                                    {
+                                        this.props.groups.map(
+                                            (group) => {
+                                                return <option key={group.id} label={group.name}>{group.id}</option>
+                                            } )
+                                    }
+                                </select>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="preferences">Preferences</label>
@@ -72,7 +84,8 @@ class Settings extends Component {
 export default connect(
     (state, ownProps) => {
         return {
-            user: state.authentication.user
+            user: state.authentication.user,
+            groups: state.groups.list
         };
     },
     (dispatch, ownProps) => {

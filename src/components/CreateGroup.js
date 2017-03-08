@@ -2,35 +2,44 @@ import React, {Component} from 'react';
 
 import {connect} from 'react-redux';
 
-import {visit} from "./../actions";
-
-import Statistics from "./Statistics";
+import {createGroup} from "./../actions";
 
 
-class Group extends Component {
+import {hashHistory} from "react-router";
+
+class NewGroup extends Component {
+
+    constructor() {
+        super();
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+
+    }
+    onInputChange(e) {
+        let change = {};
+        change[e.target.name] = e.target.value;
+        this.setState(change);
+    }
+
+    onSubmit(e) {
+        this.props.createGroup(this.state);
+
+        e.preventDefault();
+
+        hashHistory.push("./group");
+    }
+
     render() {
         return (<div className="row">
             <div className="col-lg-12">
-                <h3>{this.props.group.name}</h3>
-
-                <Statistics group={this.props.group} restaurants={this.props.restaurants} />
-
-                <h4>Members</h4>
-                {this.props.group.members.map(
-                    (member) => {
-                        let found = this.props.users.find( u => u.id === member.id);
-                        if (found == null) return null;
-                        return <div key={found.id}>{found.name}</div>
-                    }
-                )}
-                <h4>Restaurants</h4>
-                {this.props.group.restaurants.map(
-                    (restaurant) => {
-                        let found = this.props.restaurants.find( r => r.id === restaurant.id);
-                        if (found == null) return null;
-                        return <div key={found.id}>{found.name}</div>
-                    }
-                )}
+                <h3>New group</h3>
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input type="text" className="form-control" required="required" name="name" onChange={ this.onInputChange }  />
+                    </div>
+                    <button type="submit" className="btn btn-primary">Save</button>
+                </form>
             </div>
         </div>)
     }
@@ -40,16 +49,13 @@ export default connect(
     (state, ownProps) => {
         return {
             user: state.authentication.user,
-            restaurants: state.restaurants.list,
-            users: state.users.list,
-            group: state.groups.list.find( g => g.id === state.authentication.user.groupId),
         }
     },
     (dispatch, ownProps) => {
         return {
-            onVisit: (restaurant) => {
-                dispatch(visit(restaurant));
+            createGroup: (group) => {
+                dispatch(createGroup(group));
             }
         }
     }
-)(Group);
+)(NewGroup);

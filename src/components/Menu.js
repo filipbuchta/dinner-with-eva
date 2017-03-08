@@ -1,56 +1,54 @@
 import React, {Component} from 'react';
-import {Link} from "react-router";
+import {connect} from "react-redux"
+import {Link, IndexLink} from "react-router";
 
-import {connect} from 'react-redux';
+import SignIn from "./SignIn"
 
-import FacebookLogin from 'react-facebook-login';
 
-import {login} from "../actions";
-
-import 'bootstrap/dist/css/bootstrap.css';
-
-class SignIn extends Component {
-
-    constructor() {
-        super();
-        this.modal = null;
-    }
-
+class Menu extends Component {
 
     render() {
         return (
-            <div>
-                {
-                    this.props.user != null ?
-                        <Link to="settings" className="nav-link" activeClassName="active">{this.props.user.name}</Link>
-                        :
-                        <div>
-                            <FacebookLogin
-                                size="small"
-                                appId="235571820227528"
-                                autoLoad={true}
-                                fields="name"
-                                callback={this.props.onFacebookResponse}
-                            />
-                        </div>
+            <nav>
+                <ul className="nav nav-pills float-right">
+                    <li className="nav-item">
+                        <IndexLink to="/" className="nav-link" activeClassName="active">Menu</IndexLink>
+                    </li>
+                    {this.props.user != null ?
+                        <li className="nav-item">
+                            {this.props.user.groupId ?
+                                <Link to="group" className="nav-link"
+                                      activeClassName="active">{this.props.group == null ? "" : this.props.group.name}</Link>
+                                :
+                                <Link to="group/new" className="nav-link" activeClassName="active">New group</Link>
+                            }
+                        </li>
+                        : null
+                    }
 
-                }
-
-            </div>
+                    <li className="nav-item">
+                        {this.props.user != null ?
+                            <Link to="settings" className="nav-link"
+                                  activeClassName="active">{this.props.user.name}</Link>
+                            :
+                            <SignIn/>
+                        }
+                    </li>
+                </ul>
+            </nav>
         );
     }
 }
 export default connect(
     (state, ownProps) => {
         return {
-            user: state.authentication.user
-        }
+            user: state.authentication.user,
+            group: state.authentication.user == null ? null : state.groups.list.find(g => g.id === state.authentication.user.groupId)
+        };
     },
     (dispatch, ownProps) => {
         return {
-            onFacebookResponse: (response) => {
-                dispatch(login(response));
-            }
-        }
+            dispatch: dispatch
+        };
     }
-)(SignIn);
+)(Menu);

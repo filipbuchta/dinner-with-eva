@@ -1,29 +1,20 @@
 import React, { Component } from 'react';
-import { Link, IndexLink } from "react-router";
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-import SignIn from "./SignIn"
+import Menu from "./Menu"
 
 class App extends Component {
+
   render() {
-    return (
+      return (
         <div className="container">
           <div className="header clearfix">
-            <nav>
-              <ul className="nav nav-pills float-right">
-                <li className="nav-item">
-                  <IndexLink to="/" className="nav-link" activeClassName="active">Menu</IndexLink>
-                </li>
-                <li className="nav-item">
-                  <Link to="statistics" className="nav-link" activeClassName="active">Statistics</Link>
-                </li>
-                <li className="nav-item">
-                  <SignIn/>
-                </li>
-              </ul>
-            </nav>
-            <h3 className="text-muted">Kam půjdeme dnes na oběd Evo?</h3>
+            <Menu />
+
+            <h3 className="text-muted">{
+                location.hostname == "kam-pujdeme-dnes-na-obed-evo.cz" ? "Kam půjdeme dnes na oběd Evo?" : "Where should we eat?"
+            }</h3>
           </div>
             {this.props.children}
           <hr />
