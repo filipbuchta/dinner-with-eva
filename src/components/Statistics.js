@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 
 export default class Statistics extends Component {
@@ -50,5 +49,5 @@ export default class Statistics extends Component {
 
 function selectColor(colorNum, colors){
     if (colors < 1) colors = 1; // defaults to one color - avoid divide by zero
-    return "hsl(" + (colorNum * (360 / colors) % 360) + ",100%, 87.5%)";
+    return "hsl(" + Math.round(colorNum * (360 / colors) % 360) + ", 100%, 87.5%)";
 }
