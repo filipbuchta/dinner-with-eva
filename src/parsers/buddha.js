@@ -4,7 +4,7 @@ export default async function parse(restaurant) {
 
     let today = DAYS[getDayOfWeek()];
 
-    let dom = await fetchHtml("http://buddhabrno.cz/");
+    let dom = await fetchHtml("http://www.indian-restaurant-buddha.cz/");
 
     let foods = [];
 
