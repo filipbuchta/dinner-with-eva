@@ -14,7 +14,7 @@ class Food extends Component {
                     {this.props.food.name}
                     &nbsp;
                     {this.props.likedBy.map((value, index) => <span key={index}><span
-                        className="badge badge-pill badge-success">{value.nickname}</span>&nbsp;</span>)}
+                        className={"badge badge-pill " + ((this.props.user.id == value.id) ? "badge-warning" : "badge-success")}>{value.nickname}</span>&nbsp;</span>)}
                 </li>
             </ul>
         );
@@ -51,7 +51,7 @@ class Restaurant extends Component {
                             .map((value, index) => {
                                     let likedBy = this.props.users.filter(u => u.preferences.split('\n').some(p => value.name.match(new RegExp(p, "i"))));
 
-                                    return <Food key={index} food={value} likedBy={likedBy}/>
+                                    return <Food key={index} food={value} user={this.props.user} likedBy={likedBy}/>
                                 }
                             )}
                     </div>
